@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Players = exports.Teams = void 0;
 const mongoose_1 = require("mongoose");
 const TeamSchema = new mongoose_1.Schema({
-    _id: String,
     _name: String,
     _nombre: String,
     _ganados: Number,
@@ -16,7 +15,6 @@ const TeamSchema = new mongoose_1.Schema({
     collection: 'teams'
 });
 const PlayerSchema = new mongoose_1.Schema({
-    _id: String,
     _nombre: String,
     _equipo: String,
     _partidosJugados: Number,

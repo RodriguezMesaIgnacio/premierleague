@@ -1,7 +1,6 @@
 import { Schema, model } from 'mongoose'
 
 const TeamSchema = new Schema({
-    _id: String,
     _name: String,
     _nombre: String,
     _ganados: Number,
@@ -16,7 +15,6 @@ const TeamSchema = new Schema({
 
 
 const PlayerSchema = new Schema({
-    _id: String,
     _nombre: String,
     _equipo: String,
     _partidosJugados: Number,
