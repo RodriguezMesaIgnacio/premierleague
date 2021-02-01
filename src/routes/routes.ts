@@ -58,12 +58,34 @@ class Routes {
         })
         await db.desconectarBD()
     }
+
+    private postTeam = async (req: Request, res: Response) => {
+        const { name, nombre, ganados, empatados, perdidos , fundacion, titulos, temporadasPremier } = req.body
+        const ordenadores : Array<any> = new Array
+        await db.conectarBD()
+        const dSchema={
+            _name : name,
+            _nombre : nombre,
+            _ganados : ganados,
+            _empatados : empatados,
+            _perdidos : perdidos,
+            _fundacion : fundacion,
+            _titulos : titulos,
+            _temporadasPremier : temporadasPremier
+        }
+        const oSchema = new Teams(dSchema)
+        await oSchema.save()
+            .then( (doc) => res.send(doc))
+            .catch( (err: any) => res.send('Error: '+ err)) 
+        await db.desconectarBD()
+    }
     
    
 
     misRutas(){
         this._router.get('/teams', this.getTeams),
-        this._router.get('/team/:name', this.getTeam)
+        this._router.get('/team/:name', this.getTeam),
+        this._router.post('/', this.postTeam)
     }
 }
 

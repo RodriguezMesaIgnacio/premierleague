@@ -60,6 +60,26 @@ class Routes {
             });
             yield database_1.db.desconectarBD();
         });
+        this.postTeam = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { name, nombre, ganados, empatados, perdidos, fundacion, titulos, temporadasPremier } = req.body;
+            const ordenadores = new Array;
+            yield database_1.db.conectarBD();
+            const dSchema = {
+                _name: name,
+                _nombre: nombre,
+                _ganados: ganados,
+                _empatados: empatados,
+                _perdidos: perdidos,
+                _fundacion: fundacion,
+                _titulos: titulos,
+                _temporadasPremier: temporadasPremier
+            };
+            const oSchema = new schemas_1.Teams(dSchema);
+            yield oSchema.save()
+                .then((doc) => res.send(doc))
+                .catch((err) => res.send('Error: ' + err));
+            yield database_1.db.desconectarBD();
+        });
         this._router = express_1.Router();
     }
     get router() {
@@ -67,7 +87,8 @@ class Routes {
     }
     misRutas() {
         this._router.get('/teams', this.getTeams),
-            this._router.get('/team/:name', this.getTeam);
+            this._router.get('/team/:name', this.getTeam),
+            this._router.post('/', this.postTeam);
     }
 }
 const obj = new Routes();
