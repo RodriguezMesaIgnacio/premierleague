@@ -22,7 +22,7 @@ class Server {
             res.header("Access-Control-Allow-Origin", '*');
             res.header("Access-Control-Allow-Credentials", 'true');
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE');
-            res.header("Access-Control-Allow-Headers", 'Origin');
+            res.header("Access-Control-Allow-Headers", 'text/plain');
             next();
         });
 
