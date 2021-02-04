@@ -62,7 +62,6 @@ class Routes {
         });
         this.postTeam = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { name, nombre, ganados, empatados, perdidos, fundacion, titulos, temporadasPremier } = req.body;
-            const ordenadores = new Array;
             yield database_1.db.conectarBD();
             const dSchema = {
                 _name: name,

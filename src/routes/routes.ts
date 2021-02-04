@@ -61,7 +61,6 @@ class Routes {
 
     private postTeam = async (req: Request, res: Response) => {
         const { name, nombre, ganados, empatados, perdidos , fundacion, titulos, temporadasPremier } = req.body
-        const ordenadores : Array<any> = new Array
         await db.conectarBD()
         const dSchema={
             _name : name,
