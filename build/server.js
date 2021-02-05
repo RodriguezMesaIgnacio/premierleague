@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const morgan_1 = __importDefault(require("morgan"));
+// import cors from 'cors'
 const routes_1 = require("./routes/routes");
 class Server {
     constructor() {
@@ -26,12 +26,12 @@ class Server {
             this.app.set('port', process.env.PORT || 3000);
             this.app.use(express_1.default.json()); // para que nuestro servidor entienda
             // los formatos json desde clientes
-            this.app.use(morgan_1.default('dev')); // Para que muestre las url invocadas
-            this.app.use(function (req, res, next) {
-                res.header("Access-Control-Allow-Origin", '*');
-                res.header("Access-Control-Allow-Credentials", 'true');
-                res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-                res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+            // this.app.use(cors()) // evitar el error CORS
+            this.app.use((req, res, next) => {
+                res.header('Access-Control-Allow-Origin', '*');
+                res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+                res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+                res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
                 next();
             });
         });
