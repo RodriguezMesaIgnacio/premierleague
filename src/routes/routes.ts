@@ -60,7 +60,7 @@ class Routes {
     }
 
     private postTeam = async (req: Request, res: Response) => {
-        const { name, nombre, ganados, empatados, perdidos , fundacion, titulos, temporadasPremier } = req.body
+        const { name, nombre, ganados, empatados, perdidos , fundacion, titulos } = req.body
         await db.conectarBD()
         const dSchema={
             _name : name,
@@ -69,8 +69,7 @@ class Routes {
             _empatados : empatados,
             _perdidos : perdidos,
             _fundacion : fundacion,
-            _titulos : titulos,
-            _temporadasPremier : temporadasPremier
+            _titulos : titulos
         }
         const oSchema = new Teams(dSchema)
         await oSchema.save()

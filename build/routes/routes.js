@@ -61,7 +61,7 @@ class Routes {
             yield database_1.db.desconectarBD();
         });
         this.postTeam = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { name, nombre, ganados, empatados, perdidos, fundacion, titulos, temporadasPremier } = req.body;
+            const { name, nombre, ganados, empatados, perdidos, fundacion, titulos } = req.body;
             yield database_1.db.conectarBD();
             const dSchema = {
                 _name: name,
@@ -70,8 +70,7 @@ class Routes {
                 _empatados: empatados,
                 _perdidos: perdidos,
                 _fundacion: fundacion,
-                _titulos: titulos,
-                _temporadasPremier: temporadasPremier
+                _titulos: titulos
             };
             const oSchema = new schemas_1.Teams(dSchema);
             yield oSchema.save()
