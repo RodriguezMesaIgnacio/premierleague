@@ -70,7 +70,7 @@ class Routes {
                 empatados: empatados,
                 perdidos: perdidos
             };
-            const oSchema = new schemas_1.Jugadores(dSchema);
+            const oSchema = new schemas_1.Equipos(dSchema);
             yield oSchema.save()
                 .then((doc) => res.send(doc))
                 .catch((err) => res.send('Error: ' + err));
