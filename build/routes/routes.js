@@ -15,16 +15,16 @@ const schemas_1 = require("../model/schemas");
 const database_1 = require("../database/database");
 class Routes {
     constructor() {
-        this.getTeams = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.getEquipos = (req, res) => __awaiter(this, void 0, void 0, function* () {
             yield database_1.db.conectarBD()
                 .then(() => __awaiter(this, void 0, void 0, function* () {
-                const query = yield schemas_1.Teams.aggregate([
+                const query = yield schemas_1.Equipos.aggregate([
                     {
                         $lookup: {
-                            from: 'players',
-                            localField: '_nombre',
-                            foreignField: '_equipo',
-                            as: "_jugadores"
+                            from: 'jugadores',
+                            localField: 'nombre',
+                            foreignField: 'equipo',
+                            as: "jugadores"
                         }
                     }
                 ]);
@@ -35,21 +35,21 @@ class Routes {
             });
             yield database_1.db.desconectarBD();
         });
-        this.getTeam = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { name } = req.params;
+        this.getEquipo = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
             yield database_1.db.conectarBD()
                 .then(() => __awaiter(this, void 0, void 0, function* () {
-                const query = yield schemas_1.Teams.aggregate([
+                const query = yield schemas_1.Equipos.aggregate([
                     {
                         $lookup: {
-                            from: 'players',
-                            localField: '_nombre',
-                            foreignField: '_equipo',
-                            as: "_jugadores"
+                            from: 'jugadores',
+                            localField: 'nombre',
+                            foreignField: 'equipo',
+                            as: "jugadores"
                         }
                     }, {
                         $match: {
-                            _name: name
+                            id: id
                         }
                     }
                 ]);
@@ -60,19 +60,17 @@ class Routes {
             });
             yield database_1.db.desconectarBD();
         });
-        this.postTeam = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { name, nombre, ganados, empatados, perdidos, fundacion, titulos } = req.body;
+        this.postEquipo = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { id, nombre, ganados, empatados, perdidos } = req.body;
             yield database_1.db.conectarBD();
             const dSchema = {
-                _name: name,
-                _nombre: nombre,
-                _ganados: ganados,
-                _empatados: empatados,
-                _perdidos: perdidos,
-                _fundacion: fundacion,
-                _titulos: titulos
+                id: id,
+                nombre: nombre,
+                ganados: ganados,
+                empatados: empatados,
+                perdidos: perdidos
             };
-            const oSchema = new schemas_1.Teams(dSchema);
+            const oSchema = new schemas_1.Jugadores(dSchema);
             yield oSchema.save()
                 .then((doc) => res.send(doc))
                 .catch((err) => res.send('Error: ' + err));
@@ -84,9 +82,9 @@ class Routes {
         return this._router;
     }
     misRutas() {
-        this._router.get('/teams', this.getTeams),
-            this._router.get('/team/:name', this.getTeam),
-            this._router.post('/', this.postTeam);
+        this._router.get('/equipos', this.getEquipos),
+            this._router.get('/equipo/:id', this.getEquipo),
+            this._router.post('/', this.postEquipo);
     }
 }
 const obj = new Routes();

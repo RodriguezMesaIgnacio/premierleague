@@ -1,31 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Players = exports.Teams = void 0;
+exports.Jugadores = exports.Equipos = void 0;
 const mongoose_1 = require("mongoose");
-const TeamSchema = new mongoose_1.Schema({
-    _name: String,
-    _nombre: String,
-    _ganados: Number,
-    _empatados: Number,
-    _perdidos: Number,
-    _fundacion: Date,
-    _titulos: Number,
-    _temporadasPremier: Number,
+const EquipoSchema = new mongoose_1.Schema({
+    id: String,
+    nombre: String,
+    ganados: Number,
+    empatados: Number,
+    perdidos: Number
 }, {
-    collection: 'teams'
+    collection: 'equipos'
 });
-const PlayerSchema = new mongoose_1.Schema({
-    _nombre: String,
-    _equipo: String,
-    _partidosJugados: Number,
-    _minutosJugados: Number,
-    _goles: Number,
-    _asistencias: Number,
-    _tarjetasAmarillas: Number,
-    _tarjetasRojas: Number,
-    _debut: Date,
+const JugadorSchema = new mongoose_1.Schema({
+    dorsal: Number,
+    nombre: String,
+    equipo: String,
+    partidosJugados: Number,
+    minutosJugados: Number,
+    golesEncajados: Number,
+    goles: Number,
+    asistencias: Number,
+    tarjetasAmarillas: Number,
+    tarjetasRojas: Number
 }, {
-    collection: 'players'
+    collection: 'jugadores'
 });
-exports.Teams = mongoose_1.model('teams', TeamSchema);
-exports.Players = mongoose_1.model('players', PlayerSchema);
+exports.Equipos = mongoose_1.model('equipos', EquipoSchema);
+exports.Jugadores = mongoose_1.model('jugadores', JugadorSchema);

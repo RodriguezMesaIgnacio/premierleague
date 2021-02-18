@@ -1,5 +1,5 @@
 import {Request, Response, Router } from 'express'
-import { Teams, Players } from '../model/schemas'
+import { Equipos, Jugadores } from '../model/schemas'
 import { db } from '../database/database'
 
 class Routes {
@@ -12,16 +12,16 @@ class Routes {
         return this._router
     }
 
-    private getTeams = async (req:Request, res: Response) => {
+    private getEquipos = async (req:Request, res: Response) => {
         await db.conectarBD()
         .then( async ()=> {
-            const query = await Teams.aggregate([
+            const query = await Equipos.aggregate([
                 {
                     $lookup: {
-                        from: 'players',
-                        localField: '_nombre',
-                        foreignField: '_equipo',
-                        as: "_jugadores"
+                        from: 'jugadores',
+                        localField: 'nombre',
+                        foreignField: 'equipo',
+                        as: "jugadores"
                     }
                 }
             ])
@@ -33,21 +33,21 @@ class Routes {
         await db.desconectarBD()
     }
 
-    private getTeam = async (req:Request, res: Response) => {
-        const { name } = req.params
+    private getEquipo = async (req:Request, res: Response) => {
+        const { id } = req.params
         await db.conectarBD()
         .then( async ()=> {
-            const query = await Teams.aggregate([
+            const query = await Equipos.aggregate([
                 {
                     $lookup: {
-                        from: 'players',
-                        localField: '_nombre',
-                        foreignField: '_equipo',
-                        as: "_jugadores"
+                        from: 'jugadores',
+                        localField: 'nombre',
+                        foreignField: 'equipo',
+                        as: "jugadores"
                     }
                 },{
                     $match: {
-                        _name:name
+                        id:id
                     }
                 }
             ])
@@ -59,19 +59,17 @@ class Routes {
         await db.desconectarBD()
     }
 
-    private postTeam = async (req: Request, res: Response) => {
-        const { name, nombre, ganados, empatados, perdidos , fundacion, titulos } = req.body
+    private postEquipo = async (req: Request, res: Response) => {
+        const { id, nombre, ganados, empatados, perdidos } = req.body
         await db.conectarBD()
         const dSchema={
-            _name : name,
-            _nombre : nombre,
-            _ganados : ganados,
-            _empatados : empatados,
-            _perdidos : perdidos,
-            _fundacion : fundacion,
-            _titulos : titulos
+            id: id,
+            nombre: nombre,
+            ganados: ganados,
+            empatados: empatados,
+            perdidos: perdidos
         }
-        const oSchema = new Teams(dSchema)
+        const oSchema = new Jugadores(dSchema)
         await oSchema.save()
             .then( (doc) => res.send(doc))
             .catch( (err: any) => res.send('Error: '+ err)) 
@@ -81,9 +79,9 @@ class Routes {
    
 
     misRutas(){
-        this._router.get('/teams', this.getTeams),
-        this._router.get('/team/:name', this.getTeam),
-        this._router.post('/', this.postTeam)
+        this._router.get('/equipos', this.getEquipos),
+        this._router.get('/equipo/:id', this.getEquipo),
+        this._router.post('/', this.postEquipo)
     }
 }
 

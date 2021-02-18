@@ -1,34 +1,32 @@
 import { Schema, model } from 'mongoose'
 
-const TeamSchema = new Schema({
-    _name: String,
-    _nombre: String,
-    _ganados: Number,
-    _empatados: Number,
-    _perdidos: Number,
-    _fundacion: Date,
-    _titulos: Number,
-    _temporadasPremier: Number,
+const EquipoSchema = new Schema({
+    id: String,
+    nombre: String,
+    ganados: Number,
+    empatados: Number,
+    perdidos: Number
 },{
-    collection:'teams'
+    collection:'equipos'
 })
 
 
-const PlayerSchema = new Schema({
-    _nombre: String,
-    _equipo: String,
-    _partidosJugados: Number,
-    _minutosJugados: Number,
-    _goles: Number,
-    _asistencias: Number,
-    _tarjetasAmarillas: Number,
-    _tarjetasRojas: Number,
-    _debut: Date,
+const JugadorSchema = new Schema({
+    dorsal: Number,
+    nombre: String,
+    equipo: String,
+    partidosJugados: Number,
+    minutosJugados: Number,
+    golesEncajados:Number,
+    goles: Number,
+    asistencias: Number,
+    tarjetasAmarillas: Number,
+    tarjetasRojas: Number
 },{
-    collection:'players'
+    collection:'jugadores'
 })
 
 
 
-export const Teams = model('teams', TeamSchema  )
-export const Players = model('players', PlayerSchema  )
+export const Equipos = model('equipos', EquipoSchema  )
+export const Jugadores = model('jugadores', JugadorSchema  )
