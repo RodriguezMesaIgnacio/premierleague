@@ -98,11 +98,12 @@ class Routes {
             yield database_1.db.desconectarBD();
         });
         this.getJugador = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { dorsal } = req.params;
+            const { equipo, dorsal } = req.params;
             yield database_1.db.conectarBD()
                 .then(() => __awaiter(this, void 0, void 0, function* () {
                 const j = yield schemas_1.Jugadores.findOne({
                     dorsal: dorsal,
+                    equipo: equipo
                 });
                 res.json(j);
             }))
