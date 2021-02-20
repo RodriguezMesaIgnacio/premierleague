@@ -101,12 +101,12 @@ class Routes {
     
 
     private getJugador = async (req:Request, res: Response) => {
-        const { equipo, dorsal } = req.params
+        const {  dorsal } = req.params
         await db.conectarBD()
         .then( async ()=> {
             const j = await Jugadores.findOne({
                 dorsal: dorsal,
-                equipo: equipo
+                // equipo: equipo
             })
             res.json(j)
         })
@@ -122,7 +122,7 @@ class Routes {
         this._router.get('/equipo/:id', this.getEquipo),
         this._router.post('/', this.postEquipo),
         this._router.post('/jugador', this.postJugador),
-        this._router.get('/jugador/:equipo&:dorsal', this.getJugador),
+        this._router.get('/jugador/:dorsal', this.getJugador),
     }
 }
 

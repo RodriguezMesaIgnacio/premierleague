@@ -98,12 +98,11 @@ class Routes {
             yield database_1.db.desconectarBD();
         });
         this.getJugador = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { equipo, dorsal } = req.params;
+            const { dorsal } = req.params;
             yield database_1.db.conectarBD()
                 .then(() => __awaiter(this, void 0, void 0, function* () {
                 const j = yield schemas_1.Jugadores.findOne({
                     dorsal: dorsal,
-                    equipo: equipo
                 });
                 res.json(j);
             }))
@@ -122,7 +121,7 @@ class Routes {
             this._router.get('/equipo/:id', this.getEquipo),
             this._router.post('/', this.postEquipo),
             this._router.post('/jugador', this.postJugador),
-            this._router.get('/jugador/:equipo&:dorsal', this.getJugador),
+            this._router.get('/jugador/:dorsal', this.getJugador),
         ;
     }
 }
