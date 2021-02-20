@@ -121,8 +121,7 @@ class Routes {
             this._router.get('/equipo/:id', this.getEquipo),
             this._router.post('/', this.postEquipo),
             this._router.post('/jugador', this.postJugador),
-            this._router.get('/jugador/:dorsal', this.getJugador),
-        ;
+            this._router.get('/jugador/:dorsal', this.getJugador);
     }
 }
 const obj = new Routes();
