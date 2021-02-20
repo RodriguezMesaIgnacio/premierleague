@@ -86,7 +86,7 @@ class Routes {
                 partidosJugados: partidosJugados,
                 minutosJugados: minutosJugados,
                 golesEncajados: golesEncajados,
-                goles: global,
+                goles: goles,
                 asistencias: asistencias,
                 tarjetasAmarillas: tarjetasAmarillas,
                 tarjetasRojas: tarjetasRojas
