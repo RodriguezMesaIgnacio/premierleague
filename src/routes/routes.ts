@@ -76,12 +76,36 @@ class Routes {
         await db.desconectarBD()
     }
     
+    private postJugador = async (req: Request, res: Response) => {
+        const { dorsal, nombre, equipo, partidosJugados, minutosJugados, golesEncajados, goles,
+                asistencias, tarjetasAmarillas, tarjetasRojas } = req.body
+        await db.conectarBD()
+        const dSchema={
+            dorsal: dorsal,
+            nombre: nombre,
+            equipo: equipo,
+            partidosJugados: partidosJugados,
+            minutosJugados: minutosJugados,
+            golesEncajados: golesEncajados,
+            goles: global,
+            asistencias: asistencias,
+            tarjetasAmarillas: tarjetasAmarillas,
+            tarjetasRojas: tarjetasRojas
+        }
+        const oSchema = new Jugadores(dSchema)
+        await oSchema.save()
+            .then( (doc) => res.send(doc))
+            .catch( (err: any) => res.send('Error: '+ err)) 
+        await db.desconectarBD()
+    }
+    
    
 
     misRutas(){
         this._router.get('/equipos', this.getEquipos),
         this._router.get('/equipo/:id', this.getEquipo),
-        this._router.post('/', this.postEquipo)
+        this._router.post('/', this.postEquipo),
+        this._router.post('/jugador', this.postJugador)
     }
 }
 

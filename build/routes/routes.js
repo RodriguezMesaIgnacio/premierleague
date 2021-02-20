@@ -76,6 +76,27 @@ class Routes {
                 .catch((err) => res.send('Error: ' + err));
             yield database_1.db.desconectarBD();
         });
+        this.postJugador = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { dorsal, nombre, equipo, partidosJugados, minutosJugados, golesEncajados, goles, asistencias, tarjetasAmarillas, tarjetasRojas } = req.body;
+            yield database_1.db.conectarBD();
+            const dSchema = {
+                dorsal: dorsal,
+                nombre: nombre,
+                equipo: equipo,
+                partidosJugados: partidosJugados,
+                minutosJugados: minutosJugados,
+                golesEncajados: golesEncajados,
+                goles: global,
+                asistencias: asistencias,
+                tarjetasAmarillas: tarjetasAmarillas,
+                tarjetasRojas: tarjetasRojas
+            };
+            const oSchema = new schemas_1.Jugadores(dSchema);
+            yield oSchema.save()
+                .then((doc) => res.send(doc))
+                .catch((err) => res.send('Error: ' + err));
+            yield database_1.db.desconectarBD();
+        });
         this._router = express_1.Router();
     }
     get router() {
@@ -84,7 +105,8 @@ class Routes {
     misRutas() {
         this._router.get('/equipos', this.getEquipos),
             this._router.get('/equipo/:id', this.getEquipo),
-            this._router.post('/', this.postEquipo);
+            this._router.post('/', this.postEquipo),
+            this._router.post('/jugador', this.postJugador);
     }
 }
 const obj = new Routes();
