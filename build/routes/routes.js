@@ -97,6 +97,21 @@ class Routes {
                 .catch((err) => res.send('Error: ' + err));
             yield database_1.db.desconectarBD();
         });
+        this.getJugador = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { equipo, dorsal } = req.params;
+            yield database_1.db.conectarBD()
+                .then(() => __awaiter(this, void 0, void 0, function* () {
+                const j = yield schemas_1.Jugadores.findOne({
+                    dorsal: dorsal,
+                    equipo: equipo
+                });
+                res.json(j);
+            }))
+                .catch((mensaje) => {
+                res.send(mensaje);
+            });
+            yield database_1.db.desconectarBD();
+        });
         this._router = express_1.Router();
     }
     get router() {
@@ -106,7 +121,9 @@ class Routes {
         this._router.get('/equipos', this.getEquipos),
             this._router.get('/equipo/:id', this.getEquipo),
             this._router.post('/', this.postEquipo),
-            this._router.post('/jugador', this.postJugador);
+            this._router.post('/jugador', this.postJugador),
+            this._router.get('/jugador/:equipo&:dorsal', this.getJugador),
+        ;
     }
 }
 const obj = new Routes();

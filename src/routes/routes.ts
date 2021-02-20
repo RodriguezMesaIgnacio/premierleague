@@ -99,16 +99,46 @@ class Routes {
         await db.desconectarBD()
     }
     
+
+    private getJugador = async (req:Request, res: Response) => {
+        const { equipo, dorsal } = req.params
+        await db.conectarBD()
+        .then( async ()=> {
+            const j = await Jugadores.findOne({
+                dorsal: dorsal,
+                equipo: equipo
+            })
+            res.json(j)
+        })
+        .catch((mensaje) => {
+            res.send(mensaje)
+        })
+        await db.desconectarBD()
+    }
    
 
     misRutas(){
         this._router.get('/equipos', this.getEquipos),
         this._router.get('/equipo/:id', this.getEquipo),
         this._router.post('/', this.postEquipo),
-        this._router.post('/jugador', this.postJugador)
+        this._router.post('/jugador', this.postJugador),
+        this._router.get('/jugador/:equipo&:dorsal', this.getJugador),
     }
 }
 
 const obj = new Routes()
 obj.misRutas()
 export const routes = obj.router
+
+
+
+
+
+
+
+
+
+
+
+
+
