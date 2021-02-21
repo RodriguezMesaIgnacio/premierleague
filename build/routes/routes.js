@@ -112,6 +112,32 @@ class Routes {
             });
             yield database_1.db.desconectarBD();
         });
+        this.updateJugador = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { dorsal, equipo } = req.params;
+            const { nombre, partidosJugados, minutosJugados, golesEncajados, goles, asistencias, tarjetasAmarillas, tarjetasRojas } = req.body;
+            yield database_1.db.conectarBD();
+            yield schemas_1.Jugadores.findByIdAndUpdate({
+                dorsal: dorsal,
+                equipo: equipo
+            }, {
+                dorsal: dorsal,
+                nombre: nombre,
+                equipo: equipo,
+                partidosJugados: partidosJugados,
+                minutosJugados: minutosJugados,
+                golesEncajados: golesEncajados,
+                goles: goles,
+                asistencias: asistencias,
+                tarjetasAmarillas: tarjetasAmarillas,
+                tarjetasRojas: tarjetasRojas
+            }, {
+                new: true,
+                runValidators: true
+            })
+                .then((doc) => res.send(doc))
+                .catch((err) => res.send('Error: ' + err));
+            yield database_1.db.desconectarBD();
+        });
         this._router = express_1.Router();
     }
     get router() {
@@ -122,7 +148,8 @@ class Routes {
             this._router.get('/equipo/:id', this.getEquipo),
             this._router.post('/', this.postEquipo),
             this._router.post('/jugador', this.postJugador),
-            this._router.get('/jugador/:dorsal&:equipo', this.getJugador);
+            this._router.get('/jugador/:dorsal&:equipo', this.getJugador),
+            this._router.post('/jugador/:dorsal&:equipo', this.updateJugador);
     }
 }
 const obj = new Routes();

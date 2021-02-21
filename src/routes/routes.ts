@@ -115,6 +115,36 @@ class Routes {
         })
         await db.desconectarBD()
     }
+
+
+    private updateJugador = async (req: Request, res: Response) => {
+        const {dorsal, equipo} = req.params
+        const {  nombre, partidosJugados, minutosJugados, golesEncajados, goles,
+                asistencias, tarjetasAmarillas, tarjetasRojas } = req.body
+        await db.conectarBD()
+        await Jugadores.findByIdAndUpdate({
+            dorsal: dorsal,
+            equipo:equipo
+        },{
+            dorsal: dorsal,
+            nombre: nombre,
+            equipo: equipo,
+            partidosJugados: partidosJugados,
+            minutosJugados: minutosJugados,
+            golesEncajados: golesEncajados,
+            goles: goles,
+            asistencias: asistencias,
+            tarjetasAmarillas: tarjetasAmarillas,
+            tarjetasRojas: tarjetasRojas
+        },{
+            new:true,
+            runValidators:true
+        }
+        )
+            .then( (doc) => res.send(doc))
+            .catch( (err: any) => res.send('Error: '+ err)) 
+        await db.desconectarBD()
+    }
    
 
     misRutas(){
@@ -122,7 +152,8 @@ class Routes {
         this._router.get('/equipo/:id', this.getEquipo),
         this._router.post('/', this.postEquipo),
         this._router.post('/jugador', this.postJugador),
-        this._router.get('/jugador/:dorsal&:equipo', this.getJugador)
+        this._router.get('/jugador/:dorsal&:equipo', this.getJugador),
+        this._router.post('/jugador/:dorsal&:equipo', this.updateJugador)
     }
 }
 
