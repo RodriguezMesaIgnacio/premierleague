@@ -138,6 +138,26 @@ class Routes {
                 .catch((err) => res.send('Error: ' + err));
             yield database_1.db.desconectarBD();
         });
+        this.updateEquipo = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const { nombre, ganados, empatados, perdidos } = req.body;
+            yield database_1.db.conectarBD();
+            yield schemas_1.Equipos.findOneAndUpdate({
+                id: id
+            }, {
+                id: id,
+                nombre: nombre,
+                ganados: ganados,
+                empatados: empatados,
+                perdidos: perdidos
+            }, {
+                new: true,
+                runValidators: true
+            })
+                .then((doc) => res.send(doc))
+                .catch((err) => res.send('Error: ' + err));
+            yield database_1.db.desconectarBD();
+        });
         this._router = express_1.Router();
     }
     get router() {
@@ -149,7 +169,8 @@ class Routes {
             this._router.post('/', this.postEquipo),
             this._router.post('/jugador', this.postJugador),
             this._router.get('/jugador/:dorsal&:equipo', this.getJugador),
-            this._router.post('/jugador/:dorsal&:equipo', this.updateJugador);
+            this._router.post('/jugador/:dorsal&:equipo', this.updateJugador),
+            this._router.post('/equipo/:id', this.updateEquipo);
     }
 }
 const obj = new Routes();

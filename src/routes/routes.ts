@@ -145,6 +145,28 @@ class Routes {
             .catch( (err: any) => res.send('Error: '+ err)) 
         await db.desconectarBD()
     }
+
+    private updateEquipo = async (req: Request, res: Response) => {
+        const {id} =req.params
+        const {  nombre, ganados, empatados, perdidos } = req.body
+        await db.conectarBD()
+        await Equipos.findOneAndUpdate({
+            id: id
+        },{
+            id:id,
+            nombre:nombre,
+            ganados:ganados,
+            empatados:empatados,
+            perdidos:perdidos
+        },{
+            new:true,
+            runValidators:true
+        }
+        )
+            .then( (doc) => res.send(doc))
+            .catch( (err: any) => res.send('Error: '+ err)) 
+        await db.desconectarBD()
+    }
    
 
     misRutas(){
@@ -153,7 +175,8 @@ class Routes {
         this._router.post('/', this.postEquipo),
         this._router.post('/jugador', this.postJugador),
         this._router.get('/jugador/:dorsal&:equipo', this.getJugador),
-        this._router.post('/jugador/:dorsal&:equipo', this.updateJugador)
+        this._router.post('/jugador/:dorsal&:equipo', this.updateJugador),
+        this._router.post('/equipo/:id', this.updateEquipo)
     }
 }
 
