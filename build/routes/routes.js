@@ -116,7 +116,7 @@ class Routes {
             const { dorsal, equipo } = req.params;
             const { nombre, partidosJugados, minutosJugados, golesEncajados, goles, asistencias, tarjetasAmarillas, tarjetasRojas } = req.body;
             yield database_1.db.conectarBD();
-            yield schemas_1.Jugadores.findByIdAndUpdate({
+            yield schemas_1.Jugadores.findOneAndUpdate({
                 dorsal: dorsal,
                 equipo: equipo
             }, {

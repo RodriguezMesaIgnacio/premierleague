@@ -122,7 +122,7 @@ class Routes {
         const {  nombre, partidosJugados, minutosJugados, golesEncajados, goles,
                 asistencias, tarjetasAmarillas, tarjetasRojas } = req.body
         await db.conectarBD()
-        await Jugadores.findByIdAndUpdate({
+        await Jugadores.findOneAndUpdate({
             dorsal: dorsal,
             equipo:equipo
         },{
