@@ -167,6 +167,27 @@ class Routes {
             .catch( (err: any) => res.send('Error: '+ err)) 
         await db.desconectarBD()
     }
+
+
+    private deleteJugador = async (req: Request, res: Response) => {
+        const { dorsal, equipo } = req.params
+        await db.conectarBD()
+        await Jugadores.findOneAndDelete(
+            { dorsal: dorsal,
+            equipo: equipo
+            }, 
+            (err: any, doc) => {
+                if(err) console.log(err)
+                else{
+                    if (doc == null) {
+                        res.send(`No encontrado`)
+                    }else {
+                        res.send('Borrado correcto: '+ doc)
+                    }
+                }
+            })
+        db.desconectarBD()
+    }
    
 
     misRutas(){
@@ -176,7 +197,8 @@ class Routes {
         this._router.post('/jugador', this.postJugador),
         this._router.get('/jugador/:dorsal&:equipo', this.getJugador),
         this._router.post('/jugador/:dorsal&:equipo', this.updateJugador),
-        this._router.post('/equipo/:id', this.updateEquipo)
+        this._router.post('/equipo/:id', this.updateEquipo),
+        this._router.post('/deleteJugador/:dorsal&:equipo', this.deleteJugador)
     }
 }
 

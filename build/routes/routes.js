@@ -158,6 +158,25 @@ class Routes {
                 .catch((err) => res.send('Error: ' + err));
             yield database_1.db.desconectarBD();
         });
+        this.deleteJugador = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { dorsal, equipo } = req.params;
+            yield database_1.db.conectarBD();
+            yield schemas_1.Jugadores.findOneAndDelete({ dorsal: dorsal,
+                equipo: equipo
+            }, (err, doc) => {
+                if (err)
+                    console.log(err);
+                else {
+                    if (doc == null) {
+                        res.send(`No encontrado`);
+                    }
+                    else {
+                        res.send('Borrado correcto: ' + doc);
+                    }
+                }
+            });
+            database_1.db.desconectarBD();
+        });
         this._router = express_1.Router();
     }
     get router() {
@@ -170,7 +189,8 @@ class Routes {
             this._router.post('/jugador', this.postJugador),
             this._router.get('/jugador/:dorsal&:equipo', this.getJugador),
             this._router.post('/jugador/:dorsal&:equipo', this.updateJugador),
-            this._router.post('/equipo/:id', this.updateEquipo);
+            this._router.post('/equipo/:id', this.updateEquipo),
+            this._router.post('/deleteJugador/:dorsal&:equipo', this.deleteJugador);
     }
 }
 const obj = new Routes();
