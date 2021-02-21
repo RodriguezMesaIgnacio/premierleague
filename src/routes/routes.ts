@@ -198,7 +198,7 @@ class Routes {
         this._router.get('/jugador/:dorsal&:equipo', this.getJugador),
         this._router.post('/jugador/:dorsal&:equipo', this.updateJugador),
         this._router.post('/equipo/:id', this.updateEquipo),
-        this._router.post('/deleteJugador/:dorsal&:equipo', this.deleteJugador)
+        this._router.get('/deleteJugador/:dorsal&:equipo', this.deleteJugador)
     }
 }
 
